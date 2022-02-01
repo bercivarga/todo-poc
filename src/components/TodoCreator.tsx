@@ -21,13 +21,16 @@ import { useTodoContext } from "../App";
 export default function TodoCreator(): JSX.Element {
   const [name, setName] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
-  const [priority, setPriority] = useState<Priority>(Priority.medium);
-  const [collection, setCollection] = useState<Collection>(Collection.personal);
+  const [priority, setPriority] = useState<Priority>();
+  const [collection, setCollection] = useState<Collection>();
 
   const colSpan = useBreakpointValue({base: 2, md: 1})
   const todoCtx = useTodoContext()
 
   function handleTodoSubmit(): void {
+    if (!name || !author || priority === undefined || collection === undefined) {
+      return
+    }
     const todo = new Todo(uuidv4(), name, author, priority, collection)
     todoCtx?.handleAddTodo(todo)
   }
@@ -40,19 +43,19 @@ export default function TodoCreator(): JSX.Element {
       </VStack>
       <SimpleGrid columns={2} columnGap={3} rowGap={6}>
         <GridItem colSpan={2}>
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Todo name</FormLabel>
             <Input placeholder={'Type your todo here'} value={name} onChange={(e) => setName(e.target.value)} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Author</FormLabel>
             <Input placeholder={'Your name'} value={author} onChange={(e) => setAuthor(e.target.value)} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Priority</FormLabel>
             <Select placeholder={'Select priority'} value={priority} onChange={(e) => setPriority(parseInt(e.target.value))}>
               <option value={Priority.low}>🟢 Low</option>
@@ -62,7 +65,7 @@ export default function TodoCreator(): JSX.Element {
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
-          <FormControl>
+          <FormControl isRequired>
             <FormLabel>Collection</FormLabel>
             <Select placeholder={'Select collection'} value={collection} onChange={(e) => setCollection(parseInt(e.target.value))}>
               <option value={Collection.personal}>🙆 Personal</option>
