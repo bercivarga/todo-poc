@@ -1,21 +1,36 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
+  Button,
   FormControl,
   FormLabel,
   GridItem,
   Heading,
+  Input,
+  Link,
+  Select,
   SimpleGrid,
   Text,
-  Input,
-  Select,
-  Button,
+  useBreakpointValue,
   VStack,
-  useBreakpointValue, Link,
 } from "@chakra-ui/react";
-import {Priority, Collection} from "../enums";
+import { v4 as uuidv4 } from 'uuid';
+import { Collection, Priority } from "../enums";
+import { Todo } from "../db/TodoClass";
+import { useTodoContext } from "../App";
 
 export default function TodoCreator(): JSX.Element {
+  const [name, setName] = useState<string>('');
+  const [author, setAuthor] = useState<string>('');
+  const [priority, setPriority] = useState<Priority>(Priority.medium);
+  const [collection, setCollection] = useState<Collection>(Collection.personal);
+
   const colSpan = useBreakpointValue({base: 2, md: 1})
+  const todoCtx = useTodoContext()
+
+  function handleTodoSubmit(): void {
+    const todo = new Todo(uuidv4(), name, author, priority, collection)
+    todoCtx?.handleAddTodo(todo)
+  }
 
   return (
     <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
@@ -27,19 +42,19 @@ export default function TodoCreator(): JSX.Element {
         <GridItem colSpan={2}>
           <FormControl>
             <FormLabel>Todo name</FormLabel>
-            <Input placeholder={'Type your todo here'} />
+            <Input placeholder={'Type your todo here'} value={name} onChange={(e) => setName(e.target.value)} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
           <FormControl>
             <FormLabel>Author</FormLabel>
-            <Input placeholder={'Your name'} defaultValue={'Berci'} />
+            <Input placeholder={'Your name'} value={author} onChange={(e) => setAuthor(e.target.value)} />
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
           <FormControl>
             <FormLabel>Priority</FormLabel>
-            <Select placeholder={'Select priority'} >
+            <Select placeholder={'Select priority'} value={priority} onChange={(e) => setPriority(parseInt(e.target.value))}>
               <option value={Priority.low}>🟢 Low</option>
               <option value={Priority.medium}>🟠 Medium</option>
               <option value={Priority.high}>🔴 High</option>
@@ -49,7 +64,7 @@ export default function TodoCreator(): JSX.Element {
         <GridItem colSpan={colSpan}>
           <FormControl>
             <FormLabel>Collection</FormLabel>
-            <Select placeholder={'Select collection'} >
+            <Select placeholder={'Select collection'} value={collection} onChange={(e) => setCollection(parseInt(e.target.value))}>
               <option value={Collection.personal}>🙆 Personal</option>
               <option value={Collection.work}>🧑‍💻 Work</option>
               <option value={Collection.other}>🦧 Other</option>
@@ -57,7 +72,7 @@ export default function TodoCreator(): JSX.Element {
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan} alignSelf={'end'}>
-          <Button w={'full'}>Add todo</Button>
+          <Button w={'full'} onClick={handleTodoSubmit}>Add todo</Button>
         </GridItem>
       </SimpleGrid>
     </VStack>
