@@ -10,20 +10,9 @@ import {
   Select,
   Button,
   VStack,
-  useBreakpointValue,
+  useBreakpointValue, Link,
 } from "@chakra-ui/react";
-
-enum Priority {
-  low,
-  medium,
-  high
-}
-
-enum Collection {
-  personal,
-  work,
-  other
-}
+import {Priority, Collection} from "../enums";
 
 export default function TodoCreator(): JSX.Element {
   const colSpan = useBreakpointValue({base: 2, md: 1})
@@ -32,7 +21,7 @@ export default function TodoCreator(): JSX.Element {
     <VStack w="full" h="full" p={10} spacing={10} alignItems="flex-start">
       <VStack spacing={3} alignItems={'flex-start'}>
         <Heading variant={'h1'}>Your fav todo app</Heading>
-        <Text>by @bercivarga</Text>
+        <Text>by <Link href={'https://github.com/bercivarga'} target={'_blank'}>@bercivarga</Link></Text>
       </VStack>
       <SimpleGrid columns={2} columnGap={3} rowGap={6}>
         <GridItem colSpan={2}>
@@ -61,9 +50,9 @@ export default function TodoCreator(): JSX.Element {
           <FormControl>
             <FormLabel>Collection</FormLabel>
             <Select placeholder={'Select collection'} >
-              <option value={Collection.personal}>Personal</option>
-              <option value={Collection.work}>Work</option>
-              <option value={Collection.other}>Other</option>
+              <option value={Collection.personal}>🙆 Personal</option>
+              <option value={Collection.work}>🧑‍💻 Work</option>
+              <option value={Collection.other}>🦧 Other</option>
             </Select>
           </FormControl>
         </GridItem>
