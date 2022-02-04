@@ -17,6 +17,7 @@ import {
   PopoverTrigger,
   Popover,
   PopoverCloseButton,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Collection, Priority } from "../enums";
@@ -32,7 +33,7 @@ export default function TodoPage(): JSX.Element {
   function deleteTodo() {
     if (!todo) return;
     todoCtx?.handleDeleteTodo(todo);
-    navigate('/');
+    navigate("/");
   }
 
   return (
@@ -41,19 +42,24 @@ export default function TodoPage(): JSX.Element {
         <Button onClick={() => navigate("/")}>Go back</Button>
         <Popover>
           <PopoverTrigger>
-            <Button colorScheme={'red'}>Delete</Button>
+            <Button colorScheme={"red"}>Delete</Button>
           </PopoverTrigger>
-          <Portal>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverHeader>Delete todo?</PopoverHeader>
-              <PopoverCloseButton />
-              <PopoverBody>
-                <Button colorScheme='purple' onClick={deleteTodo}>Yes!</Button>
-              </PopoverBody>
-              <PopoverFooter>This action is irreversible.</PopoverFooter>
-            </PopoverContent>
-          </Portal>
+          <PopoverContent>
+            <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverBody>
+              Are you sure you want to delete this todo?
+            </PopoverBody>
+            <PopoverFooter d="flex" justifyContent="flex-end">
+              <ButtonGroup size="sm">
+                <Button variant="outline">Cancel</Button>
+                <Button colorScheme="red" onClick={deleteTodo}>
+                  Delete
+                </Button>
+              </ButtonGroup>
+            </PopoverFooter>
+          </PopoverContent>
         </Popover>
       </Flex>
       <Flex

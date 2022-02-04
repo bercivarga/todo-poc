@@ -6,6 +6,7 @@ import {
   UnorderedList,
   VStack,
   useBreakpointValue,
+  ScaleFade,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useTodoContext } from "../App";
@@ -36,22 +37,24 @@ export default function TodoList(): JSX.Element {
         spacing={2}
       >
         {todoCtx?.todos.map((todo) => (
-          <Link to={`/${todo.id}`} key={todo.id}>
-            <ListItem>
-              <Flex
-                direction={"row"}
-                justifyContent={"space-between"}
-                p={"8px 16px"}
-                bg={"white"}
-                borderRadius={4}
-              >
-                <Text fontSize="lg" fontWeight={"bold"}>
-                  {todo.name}
-                </Text>
-                <Text fontSize="lg">~ {todo.author}</Text>
-              </Flex>
-            </ListItem>
-          </Link>
+          <ScaleFade key={todo.id} initialScale={1} in={!!todoCtx.todos.find(t => t.id === todo.id)}>
+            <Link to={`/${todo.id}`}>
+              <ListItem>
+                <Flex
+                  direction={"row"}
+                  justifyContent={"space-between"}
+                  p={"8px 16px"}
+                  bg={"white"}
+                  borderRadius={4}
+                >
+                  <Text fontSize="lg" fontWeight={"bold"}>
+                    {todo.name}
+                  </Text>
+                  <Text fontSize="lg">~ {todo.author}</Text>
+                </Flex>
+              </ListItem>
+            </Link>
+          </ScaleFade>
         ))}
       </UnorderedList>
     </VStack>
