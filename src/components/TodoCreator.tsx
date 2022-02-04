@@ -28,6 +28,7 @@ export default function TodoCreator(): JSX.Element {
   const todoCtx = useTodoContext();
 
   function handleTodoSubmit(): void {
+    console.log(isFormValid)
     if (!isFormValid) {
       return;
     }
@@ -45,9 +46,9 @@ export default function TodoCreator(): JSX.Element {
 
   const isFormValid: boolean = useMemo(() => {
     if (name && author && priority !== undefined && collection !== undefined) {
-      return false;
+      return true;
     }
-    return true;
+    return false;
   }, [name, author, priority, collection]);
 
   return (
@@ -61,7 +62,7 @@ export default function TodoCreator(): JSX.Element {
           </Link>
         </Text>
       </VStack>
-      <SimpleGrid columns={2} columnGap={3} rowGap={6}>
+      <SimpleGrid columns={2} columnGap={3} rowGap={6} w={"full"}>
         <GridItem colSpan={2}>
           <FormControl isRequired>
             <FormLabel>Todo name</FormLabel>
@@ -111,7 +112,7 @@ export default function TodoCreator(): JSX.Element {
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan} alignSelf={"end"}>
-          <Button w={"full"} disabled={isFormValid} onClick={handleTodoSubmit}>
+          <Button w={"full"} disabled={!isFormValid} onClick={handleTodoSubmit}>
             Add todo
           </Button>
         </GridItem>

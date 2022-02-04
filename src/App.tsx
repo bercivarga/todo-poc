@@ -18,7 +18,7 @@ export function useTodoContext() {
   return useContext(TodoContext);
 }
 
-function App() {
+function App(): JSX.Element {
   const [todos, setTodos] = useState<ITodo[]>(db.todos);
 
   function handleAddTodo(todo: ITodo): void {
