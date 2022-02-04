@@ -9,6 +9,7 @@ type TodoContextType =
   | {
       todos: ITodo[];
       handleAddTodo: (todo: ITodo) => void;
+      handleDeleteTodo: (todo: ITodo) => void;
     }
   | undefined;
 
@@ -25,8 +26,13 @@ function App(): JSX.Element {
     setTodos([...todos, todo]);
   }
 
+  function handleDeleteTodo(todo: ITodo): void {
+    const filteredArr = todos.filter(t => t.id !== todo.id)
+    setTodos(filteredArr)
+  }
+
   return (
-    <TodoContext.Provider value={{ todos, handleAddTodo }}>
+    <TodoContext.Provider value={{ todos, handleAddTodo, handleDeleteTodo }}>
       <Routes>
         <Route path={"/"} element={<TodoNavigator />} />
         <Route path={":todoId"} element={<TodoPage />} />

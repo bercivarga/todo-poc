@@ -8,6 +8,15 @@ import {
   Tag,
   Box,
   HStack,
+  PopoverFooter,
+  PopoverBody,
+  PopoverHeader,
+  PopoverArrow,
+  PopoverContent,
+  Portal,
+  PopoverTrigger,
+  Popover,
+  PopoverCloseButton,
 } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Collection, Priority } from "../enums";
@@ -20,9 +29,33 @@ export default function TodoPage(): JSX.Element {
 
   const todo = todoCtx?.todos.find((todo) => todo.id === todoId);
 
+  function deleteTodo() {
+    if (!todo) return;
+    todoCtx?.handleDeleteTodo(todo);
+    navigate('/');
+  }
+
   return (
     <Container maxW={"container.sm"} marginTop={8}>
-      <Button onClick={() => navigate("/")}>Go back</Button>
+      <Flex justifyContent={"space-between"}>
+        <Button onClick={() => navigate("/")}>Go back</Button>
+        <Popover>
+          <PopoverTrigger>
+            <Button colorScheme={'red'}>Delete</Button>
+          </PopoverTrigger>
+          <Portal>
+            <PopoverContent>
+              <PopoverArrow />
+              <PopoverHeader>Delete todo?</PopoverHeader>
+              <PopoverCloseButton />
+              <PopoverBody>
+                <Button colorScheme='purple' onClick={deleteTodo}>Yes!</Button>
+              </PopoverBody>
+              <PopoverFooter>This action is irreversible.</PopoverFooter>
+            </PopoverContent>
+          </Portal>
+        </Popover>
+      </Flex>
       <Flex
         marginTop={8}
         bg={"whiteAlpha.100"}

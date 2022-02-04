@@ -1,6 +1,6 @@
 import TodoCreator from "./TodoCreator";
-import TodoList from "./TodoList";
 import { Container, Flex } from "@chakra-ui/react";
+import TodoList from "./TodoList";
 
 export default function TodoNavigator(): JSX.Element {
   return (
