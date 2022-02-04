@@ -13,10 +13,22 @@ type TodoContextType =
     }
   | undefined;
 
+type UserContextType =
+  | {
+      name: string;
+      avatar: string;
+    }
+  | undefined;
+
 const TodoContext = createContext<TodoContextType>(undefined);
+const UserContext = createContext<UserContextType>(undefined);
 
 export function useTodoContext() {
   return useContext(TodoContext);
+}
+
+export function useUserContext() {
+  return useContext(UserContext);
 }
 
 function App(): JSX.Element {
@@ -27,17 +39,21 @@ function App(): JSX.Element {
   }
 
   function handleDeleteTodo(todo: ITodo): void {
-    const filteredArr = todos.filter(t => t.id !== todo.id)
-    setTodos(filteredArr)
+    const filteredArr = todos.filter((t) => t.id !== todo.id);
+    setTodos(filteredArr);
   }
 
   return (
-    <TodoContext.Provider value={{ todos, handleAddTodo, handleDeleteTodo }}>
-      <Routes>
-        <Route path={"/"} element={<TodoNavigator />} />
-        <Route path={":todoId"} element={<TodoPage />} />
-      </Routes>
-    </TodoContext.Provider>
+    <UserContext.Provider
+      value={{ name: db.user.name, avatar: db.user.avatar }}
+    >
+      <TodoContext.Provider value={{ todos, handleAddTodo, handleDeleteTodo }}>
+        <Routes>
+          <Route path={"/"} element={<TodoNavigator />} />
+          <Route path={":todoId"} element={<TodoPage />} />
+        </Routes>
+      </TodoContext.Provider>
+    </UserContext.Provider>
   );
 }
 

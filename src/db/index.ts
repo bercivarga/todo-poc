@@ -4,7 +4,7 @@ import { Collection, Priority } from "../enums";
 
 const db = {
   user: {
-    name: 'Berci',
+    name: 'Berci Varga',
     avatar: 'https://avatars.githubusercontent.com/u/65171545?v=4',
   },
   todos: [
