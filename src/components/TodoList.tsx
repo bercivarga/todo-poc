@@ -35,6 +35,22 @@ export default function TodoList(): JSX.Element {
         display={"flex"}
         flexDir={"column"}
         spacing={2}
+        overflowY={"scroll"}
+        maxH={"full"}
+        css={{
+          '&::-webkit-scrollbar': {
+            width: 0,
+            display: "hidden"
+          },
+          '&::-webkit-scrollbar-track': {
+            width: 0,
+            display: "hidden"
+          },
+          '&::-webkit-scrollbar-thumb': {
+            width: 0,
+            display: "hidden"
+          },
+        }}
       >
         {todoCtx?.todos.map((todo) => (
           <ScaleFade key={todo.id} initialScale={1} in={!!todoCtx.todos.find(t => t.id === todo.id)}>
