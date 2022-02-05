@@ -22,11 +22,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Collection, Priority } from "../enums";
 import { useTodoContext } from "../App";
 import { useState } from "react";
+import RouterPropsType from "../typings/routerProps";
 
 export default function TodoPage(): JSX.Element {
   const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
 
-  const { todoId } = useParams<{ todoId: string }>();
+  const { todoId } = useParams<RouterPropsType>();
   const navigate = useNavigate();
   const todoCtx = useTodoContext();
 
