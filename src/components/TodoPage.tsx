@@ -13,7 +13,6 @@ import {
   PopoverHeader,
   PopoverArrow,
   PopoverContent,
-  Portal,
   PopoverTrigger,
   Popover,
   PopoverCloseButton,
@@ -22,8 +21,11 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { Collection, Priority } from "../enums";
 import { useTodoContext } from "../App";
+import { useState } from "react";
 
 export default function TodoPage(): JSX.Element {
+  const [isPopOpen, setIsPopOpen] = useState<boolean>(false);
+
   const { todoId } = useParams<{ todoId: string }>();
   const navigate = useNavigate();
   const todoCtx = useTodoContext();
@@ -33,6 +35,7 @@ export default function TodoPage(): JSX.Element {
   function deleteTodo() {
     if (!todo) return;
     todoCtx?.handleDeleteTodo(todo);
+    setIsPopOpen(false);
     navigate("/");
   }
 
@@ -40,20 +43,20 @@ export default function TodoPage(): JSX.Element {
     <Container maxW={"container.sm"} marginTop={8}>
       <Flex justifyContent={"space-between"}>
         <Button onClick={() => navigate("/")}>Go back</Button>
-        <Popover>
+        <Popover isOpen={isPopOpen}>
           <PopoverTrigger>
-            <Button colorScheme={"red"}>Delete</Button>
+            <Button colorScheme={"red"} onClick={() => setIsPopOpen(true)}>Delete</Button>
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent onBlur={() => setIsPopOpen(false)}>
             <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
             <PopoverArrow />
-            <PopoverCloseButton />
+            <PopoverCloseButton onClick={() => setIsPopOpen(false)} />
             <PopoverBody>
               Are you sure you want to delete this todo?
             </PopoverBody>
             <PopoverFooter d="flex" justifyContent="flex-end">
               <ButtonGroup size="sm">
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" onClick={() => setIsPopOpen(false)}>Cancel</Button>
                 <Button colorScheme="red" onClick={deleteTodo}>
                   Delete
                 </Button>
