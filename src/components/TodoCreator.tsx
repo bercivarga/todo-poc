@@ -4,7 +4,6 @@ import {
   AvatarBadge,
   Box,
   Button,
-  Flex,
   FormControl,
   FormLabel,
   GridItem,
@@ -16,6 +15,8 @@ import {
   SimpleGrid,
   Text,
   useBreakpointValue,
+  useColorMode,
+  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
@@ -28,6 +29,10 @@ export default function TodoCreator(): JSX.Element {
   const [author, setAuthor] = useState<string>("");
   const [priority, setPriority] = useState<Priority>();
   const [collection, setCollection] = useState<Collection>();
+
+  const { toggleColorMode } = useColorMode();
+  const avatarWrapperColor = useColorModeValue("blue.50", "blackAlpha.400");
+  const avatarBadgeColor = useColorModeValue("white", "black");
 
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
   const todoCtx = useTodoContext();
@@ -143,13 +148,13 @@ export default function TodoCreator(): JSX.Element {
         <HStack
           spacing={4}
           p={4}
-          bg={"blue.50"}
+          bg={avatarWrapperColor}
           w={"max-content"}
           borderRadius={6}
           boxShadow={"sm"}
         >
           <Avatar name={userCtx?.name} src={userCtx?.avatar}>
-            <AvatarBadge boxSize="1.25em" bg="green.500" />
+            <AvatarBadge boxSize="1.25em" bg="green.500" borderColor={avatarBadgeColor} />
           </Avatar>
           <VStack
             justifyContent={"center"}
@@ -157,7 +162,7 @@ export default function TodoCreator(): JSX.Element {
             alignItems={"flex-start"}
           >
             <Text>{userCtx?.name ?? "User"}</Text>
-            <Link fontWeight={"bold"}>Log out</Link>
+            <Link fontWeight={"bold"} onClick={toggleColorMode}>Toggle mode</Link>
           </VStack>
         </HStack>
       </Box>

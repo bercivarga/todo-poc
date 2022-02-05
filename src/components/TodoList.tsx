@@ -46,6 +46,7 @@ export default function TodoList(): JSX.Element {
                   p={"8px 16px"}
                   bg={"white"}
                   borderRadius={4}
+                  color={"blackAlpha.900"}
                 >
                   <Text fontSize="lg" fontWeight={"bold"}>
                     {todo.name}
