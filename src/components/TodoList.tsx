@@ -38,6 +38,7 @@ export default function TodoList(): JSX.Element {
         overflowY={"scroll"}
         maxH={"full"}
         css={{
+          "scrollbar-width": "none",
           '&::-webkit-scrollbar': {
             width: 0,
             display: "hidden"
