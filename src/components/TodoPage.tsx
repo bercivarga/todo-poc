@@ -45,7 +45,9 @@ export default function TodoPage(): JSX.Element {
         <Button onClick={() => navigate("/")}>Go back</Button>
         <Popover isOpen={isPopOpen}>
           <PopoverTrigger>
-            <Button colorScheme={"red"} onClick={() => setIsPopOpen(true)}>Delete</Button>
+            <Button colorScheme={"red"} onClick={() => setIsPopOpen(true)}>
+              Delete
+            </Button>
           </PopoverTrigger>
           <PopoverContent onBlur={() => setIsPopOpen(false)}>
             <PopoverHeader fontWeight="semibold">Confirmation</PopoverHeader>
@@ -56,7 +58,9 @@ export default function TodoPage(): JSX.Element {
             </PopoverBody>
             <PopoverFooter d="flex" justifyContent="flex-end">
               <ButtonGroup size="sm">
-                <Button variant="outline" onClick={() => setIsPopOpen(false)}>Cancel</Button>
+                <Button variant="outline" onClick={() => setIsPopOpen(false)}>
+                  Cancel
+                </Button>
                 <Button colorScheme="red" onClick={deleteTodo}>
                   Delete
                 </Button>
